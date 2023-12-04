@@ -30,7 +30,9 @@ def insere(file:list,arbre) :
     """
     Insere un arbre dans une file à priorités
     """
-    return None #Rafael
+    for i in range(len(file)):  
+        if arbre.poids > file[i].poids and arbre.poids < file[i+1].poids :
+            file.insert(i+1, arbre)
 
 
 def Huffman(texte:str) :
