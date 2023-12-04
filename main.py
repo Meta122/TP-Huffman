@@ -27,13 +27,20 @@ def occurrence(texte:str)->dict :
     return dico
 
 
-def insere(file:list,arbre) :
+def insere(file: list, arbre):
     """
-    Insere un arbre dans une file à priorités
+    Insère un arbre dans une file à priorités triée par poids croissant
     """
-    for i in range(len(file)):  
-        if arbre.poids > file[i].poids and arbre.poids < file[i+1].poids :
-            file.insert(i+1, arbre)
+    if not file or arbre.poids <= file[0].poids:
+        file.insert(0, arbre)
+    elif arbre.poids >= file[-1].poids:
+        file.append(arbre)
+    else:
+        index = 0
+        while index < len(file) and arbre.poids > file[index].poids:
+            index += 1
+        file.insert(index, arbre)
+
 
 
 def Huffman(texte:str) :
@@ -62,3 +69,15 @@ texte = "je veux et j'exige d'exquises excuses."
 print(occurrence(texte))
 texte = "Mamamia it's'a me Mario"
 print(occurrence(texte))
+arbre1 = Noeud('A',2)
+arbre2 = Noeud('B',5)
+arbre3 = Noeud('C',3)
+arbre4 = Noeud('D',7)
+file = []
+insere(file,arbre1)
+insere(file,arbre2)
+insere(file,arbre3)
+insere(file,arbre4)
+
+for x in file:
+    print(x.poids)
