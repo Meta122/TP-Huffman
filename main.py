@@ -1,6 +1,7 @@
+#!/usr/bin/python3
 class Noeud :
 
-    def __init__(self, caractere:str, poids:int, arbregauche, arbredroit) :
+    def __init__(self, caractere:str, poids:int, arbregauche=None, arbredroit=None) :
         self.caractere = caractere
         self.poids = poids
         self.arbregauche = arbregauche
@@ -12,7 +13,7 @@ class Noeud :
         """
         Renvoie True si le noeud est une feuille
         """
-        return True #Lucien
+        return self.arbredroit==None and self.arbregauche==None
 
 
 
