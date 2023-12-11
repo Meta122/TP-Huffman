@@ -22,7 +22,18 @@ def Huffman(texte:str) :
     données : une texte
     résultat : l’arbre binaire du codage de Huffman 
     """
-    pass
+    dico = occurences(texte)
+    file = []
+    for c in dico :
+        a = Noeud(c,occurences[c])
+        insere(file,a)
+    while len(file) > 1 :
+        a = Noeud()
+        a.gauche = file.pop(0)
+        a.droite = file.pop(0)
+        a.poids = a.gauche.poids + a.droite.poids
+        insere(file,a)
+    return file[0]
 
 
 """

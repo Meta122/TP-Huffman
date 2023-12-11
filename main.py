@@ -7,14 +7,22 @@ class Noeud :
         self.arbregauche = arbregauche
         self.arbredroit = arbredroit
     
-    #Lucien
-    
     def est_feuille(self)->bool :
         """
         Renvoie True si le noeud est une feuille
         """
         return self.arbredroit==None and self.arbregauche==None
 
+    def __str__(self, niveau=0):
+        indentation = "    "  # Ajuste selon la profondeur souhaitée
+        representation = ""
+
+        if self.est_feuille():
+            representation += f"{indentation * niveau}[-] Feuille: Caractère={self.caractere}, Poids={self.poids}\n"
+        else:
+            representation += f"{indentation * niveau}[-] Noeud: Caractère={self.caractere}, Poids={self.poids}\n"
+            representation += f"{indentation * (niveau + 1)}|-- Gauche: {self.arbregauche.__str__(niveau + 2)}\n"
+            representation += f"{indentation * (niveau + 1)}|-- Droit: {self.arbredroit.__str__(niveau + 2)}"
 
 
 def occurrence(texte:str)->dict :
@@ -43,11 +51,24 @@ def insere(file: list, arbre):
 
 
 
+
 def Huffman(texte:str) :
     """
-    Crée l'arbre de Huffman
+    données : une texte
+    résultat : l’arbre binaire du codage de Huffman 
     """
-    return None #Rafael
+    dico = occurrence(texte)
+    file = []
+    for c in dico :
+        a = Noeud(c,dico[c])
+        insere(file,a)
+    while len(file) > 1 :
+        a = Noeud()
+        a.gauche = file.pop(0)
+        a.droite = file.pop(0)
+        a.poids = a.gauche.poids + a.droite.poids
+        insere(file,a)
+    return file
 
 
 def codage(arbre, dico:dict, binaire="") -> dict :
@@ -81,3 +102,5 @@ insere(file,arbre4)
 
 for x in file:
     print(x.poids)
+
+print(Huffman('barbe'))
