@@ -23,7 +23,7 @@ class Noeud :
             representation += f"{indentation * niveau}[-] Noeud: Caractère={self.caractere}, Poids={self.poids}\n"
             representation += f"{indentation * (niveau + 1)}|-- Gauche: {self.arbregauche.__str__(niveau + 2)}\n"
             representation += f"{indentation * (niveau + 1)}|-- Droit: {self.arbredroit.__str__(niveau + 2)}"
-
+        return representation
 
 def occurrence(texte:str)->dict :
     """
@@ -59,14 +59,14 @@ def Huffman(texte:str) :
     """
     dico = occurrence(texte)
     file = []
-    for c in dico :
+    for c in dico.keys() :
         a = Noeud(c,dico[c])
         insere(file,a)
     while len(file) > 1 :
         a = Noeud()
-        a.gauche = file.pop(0)
-        a.droite = file.pop(0)
-        a.poids = a.gauche.poids + a.droite.poids
+        a.arbregauche = file.pop(0)
+        a.arbredroit = file.pop(0)
+        a.poids = a.arbregauche.poids + a.arbredroit.poids
         insere(file,a)
     return file[0]
 
@@ -85,7 +85,7 @@ def compression(texte:str) :
     return None #Les deux
 
 
-
+"""
 texte = "je veux et j'exige d'exquises excuses."
 print(occurrence(texte))
 texte = "Mamamia it's'a me Mario"
@@ -102,5 +102,6 @@ insere(file,arbre4)
 
 for x in file:
     print(x.poids)
+"""
 
 print(Huffman('barbe'))
