@@ -68,7 +68,7 @@ def Huffman(texte:str) :
         a.droite = file.pop(0)
         a.poids = a.gauche.poids + a.droite.poids
         insere(file,a)
-    return file
+    return file[0]
 
 
 def codage(arbre, dico:dict, binaire="") -> dict :
