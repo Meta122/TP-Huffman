@@ -82,8 +82,7 @@ def compression(texte:str) :
     """
     Renvoie le codage de Huffman d'un texte et son taux de compression
     """
-    return None #Les deux
-
+    return None
 
 """
 texte = "je veux et j'exige d'exquises excuses."
