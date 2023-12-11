@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 class Noeud :
 
-    def __init__(self, caractere:str, poids:int, arbregauche=None, arbredroit=None) :
+    def __init__(self, caractere:str="", poids:int=0, arbregauche=None, arbredroit=None) :
         self.caractere = caractere
         self.poids = poids
         self.arbregauche = arbregauche
