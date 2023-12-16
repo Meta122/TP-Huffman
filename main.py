@@ -71,11 +71,26 @@ def Huffman(texte:str) :
     return file[0]
 
 
-def codage(arbre, dico:dict, binaire="") -> dict :
+def codage(arbre, dico: dict = None, binaire="") -> dict:
     """
-    Renvoie un dictionnaire contenant le codage de chaque caractere des feuilles d'un arbre de Huffmann
+    IN: un abrbre dont il faut renvoyé le codage, le dictionnaire à completer et le binaire du caractère actuel
+    OUT: un dictionnaire contenant tous les codages huffman des caractères
     """
-    return None #Lucien
+    if dico is None:
+        dico = {}
+
+    if arbre is not None:
+        # Check if the node is a leaf
+        if arbre.est_feuille():
+            # Add the character and its corresponding binary code to the dictionary
+            dico[arbre.caractere] = binaire
+        else:
+            # Recursively traverse left with '0'
+            codage(arbre.arbregauche, dico, binaire + "0")#ajoute un 0 et complète le dictionnaire car le dico modifié est tjr à la mm adresse de mémoire
+            # Recursively traverse right with '1'
+            codage(arbre.arbredroit, dico, binaire + "1")#pareil a droite
+
+    return dico
 
 
 def compression(texte:str) :
