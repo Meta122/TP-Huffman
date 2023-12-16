@@ -14,7 +14,7 @@ class Noeud :
         return self.arbredroit==None and self.arbregauche==None
 
     def __str__(self, niveau=0):
-        indentation = "    "  # Ajuste selon la profondeur souhaitée
+        indentation = "      "  # Ajuste selon la profondeur souhaitée
         representation = ""
 
         if self.est_feuille():
@@ -73,7 +73,7 @@ def Huffman(texte:str) :
 
 def codage(arbre, dico: dict = None, binaire="") -> dict:
     """
-    IN: un abrbre dont il faut renvoyé le codage, le dictionnaire à completer et le binaire du caractère actuel
+    IN: un abrbre dont il faut renvoyer le codage, le dictionnaire à completer et le binaire du caractère actuel
     OUT: un dictionnaire contenant tous les codages huffman des caractères
     """
     if dico is None:
@@ -99,7 +99,6 @@ def compression(texte:str) :
     """
     return None
 
-"""
 texte = "je veux et j'exige d'exquises excuses."
 print(occurrence(texte))
 texte = "Mamamia it's'a me Mario"
@@ -116,6 +115,7 @@ insere(file,arbre4)
 
 for x in file:
     print(x.poids)
-"""
 
 print(Huffman('barbe'))
+print(codage(Huffman('barbe')))
+print(codage(Huffman("je veux et j'exige d'exquises excuses.")))
