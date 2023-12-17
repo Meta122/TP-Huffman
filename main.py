@@ -1,4 +1,5 @@
-#!/usr/bin/python3
+#Code
+
 class Noeud :
 
     def __init__(self, caractere:str="", poids:int=0, arbregauche=None, arbredroit=None) :
@@ -14,16 +15,21 @@ class Noeud :
         return self.arbredroit==None and self.arbregauche==None
 
     def __str__(self, niveau=0):
-        indentation = "      "  # Ajuste selon la profondeur souhaitée
+        """
+        Affichage amélioré pour les tests
+        """
+        indentation = "    "  # Ajuste selon la profondeur souhaitée
         representation = ""
 
         if self.est_feuille():
             representation += f"{indentation * niveau}[-] Feuille: Caractère={self.caractere}, Poids={self.poids}\n"
         else:
             representation += f"{indentation * niveau}[-] Noeud: Caractère={self.caractere}, Poids={self.poids}\n"
-            representation += f"{indentation * (niveau + 1)}|-- Gauche: {self.arbregauche.__str__(niveau + 2)}\n"
-            representation += f"{indentation * (niveau + 1)}|-- Droit: {self.arbredroit.__str__(niveau + 2)}"
+            representation += f"{indentation * (niveau + 1)}|-- Gauche:\n{self.arbregauche.__str__(niveau + 2)}"
+            representation += f"{indentation * (niveau + 1)}|-- Droit:\n{self.arbredroit.__str__(niveau + 2)}"
+
         return representation
+
 
 def occurrence(texte:str)->dict :
     """
