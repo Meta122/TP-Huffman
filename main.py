@@ -118,6 +118,8 @@ def compression(texte:str)->tuple((str,float)):
 
 
 
+#Tests
+
 def decompression(texte:str,dico:dict)->str:
     dico_inverse={dico[i]:i for i in dico}
     string=''
@@ -130,10 +132,6 @@ def decompression(texte:str,dico:dict)->str:
                 comp=''
     return string
 
-
-
-
-#Tests
 
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
