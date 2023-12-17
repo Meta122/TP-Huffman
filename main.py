@@ -1,3 +1,5 @@
+from random import randint
+
 #Code
 
 class Noeud :
@@ -31,6 +33,8 @@ class Noeud :
         return representation
 
 
+
+
 def occurrence(texte:str)->dict :
     """
     Renvoie un dictionnaire qui compte les occurrences d'un texte
@@ -41,19 +45,20 @@ def occurrence(texte:str)->dict :
     return dico
 
 
+
+
 def insere(file: list, arbre):
     """
     Insère un arbre dans une file à priorités triée par poids croissant
     """
-    if not file or arbre.poids <= file[0].poids:
-        file.insert(0, arbre)
-    elif arbre.poids >= file[-1].poids:
+    if file==[]:
         file.append(arbre)
-    else:
-        index = 0
-        while index < len(file) and arbre.poids > file[index].poids:
-            index += 1
-        file.insert(index, arbre)
+        return file
+    i=0
+    while i<len(file) and file[i].poids<arbre.poids :
+        i+=1
+    file.insert(i,arbre)
+    return file
 
 
 
@@ -77,51 +82,77 @@ def Huffman(texte:str) :
     return file[0]
 
 
-def codage(arbre, dico: dict = None, binaire="") -> dict:
+
+
+def codage(arbre, dico:dict, binaire="") -> dict:
     """
     IN: un abrbre dont il faut renvoyer le codage, le dictionnaire à completer et le binaire du caractère actuel
     OUT: un dictionnaire contenant tous les codages huffman des caractères
     """
-    if dico is None:
-        dico = {}
-
-    if arbre is not None:
-        # Check if the node is a leaf
-        if arbre.est_feuille():
-            # Add the character and its corresponding binary code to the dictionary
-            dico[arbre.caractere] = binaire
-        else:
-            # Recursively traverse left with '0'
-            codage(arbre.arbregauche, dico, binaire + "0")#ajoute un 0 et complète le dictionnaire car le dico modifié est tjr à la mm adresse de mémoire
-            # Recursively traverse right with '1'
-            codage(arbre.arbredroit, dico, binaire + "1")#pareil a droite
-
-    return dico
+    if arbre.caractere!="":
+        dico[arbre.caractere]=binaire
+        return dico
+    else:
+        if arbre.arbregauche and arbre.arbredroit:
+            codage(arbre.arbregauche, dico, binaire=binaire+"0")
+            codage(arbre.arbredroit, dico, binaire=binaire+"1")
+        elif arbre.arbregauche:
+            codage(arbre.arbregauche, dico, binaire=binaire+"0")
+        elif arbre.arbredroit:
+            codage(arbre.arbredroit, dico, binaire=binaire+"1")
+        return dico
 
 
-def compression(texte:str) :
-    """
-    Renvoie le codage de Huffman d'un texte et son taux de compression
-    """
-    return None
 
-texte = "je veux et j'exige d'exquises excuses."
-print(occurrence(texte))
-texte = "Mamamia it's'a me Mario"
-print(occurrence(texte))
-arbre1 = Noeud('A',2)
-arbre2 = Noeud('B',5)
-arbre3 = Noeud('C',3)
-arbre4 = Noeud('D',7)
-file = []
-insere(file,arbre1)
-insere(file,arbre2)
-insere(file,arbre3)
-insere(file,arbre4)
 
-for x in file:
-    print(x.poids)
+def compression(texte:str)->tuple((str,float)):
+    '''IN: texte
+    OUT:tuple: le texte compressé, et le taux de compression
+    '''
+    a=codage(Huffman(texte),{})
+    string=''
+    for i in texte:
+        string+=a[i]
+    return string,1-(len(string)/(len(texte)*8))
 
-print(Huffman('barbe'))
-print(codage(Huffman('barbe')))
-print(codage(Huffman("je veux et j'exige d'exquises excuses.")))
+
+
+
+def decompression(texte:str,dico:dict)->str:
+    dico_inverse={dico[i]:i for i in dico}
+    string=''
+    comp=''
+    for i in texte:
+        comp+=i
+        for a in dico.values():
+            if comp==a:
+                string+=dico_inverse[comp]
+                comp=''
+    return string
+
+
+
+
+#Tests
+
+alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+for _ in range(20) :
+
+    texte_original = ''
+    for i in range(randint(5,30)) :
+        texte_original += alphabet[randint(0,25)]
+
+    arbre_huffman = Huffman(texte_original)
+    dictionnaire_codage = codage(arbre_huffman, {})
+    texte_compresse, taux_compression = compression(texte_original)
+    texte_decompresse = decompression(texte_compresse, dictionnaire_codage)
+    print(f"Texte original: {texte_original}")
+    print(f"Texte compressé: {texte_compresse}")
+    print(f"Texte décompressé: {texte_decompresse}")
+    print(f"Taux de compression: {taux_compression}")
+    if texte_original == texte_decompresse :
+        print('-> Test passé')
+    else :
+        print('-> Erreur')
+    print('\n')
